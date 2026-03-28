@@ -6,7 +6,10 @@ public class Potion implements Item {
 
     @Override
     public void use(Combatant user) {
+        int before = user.getHp();
         user.heal(100);
-        System.out.println("Potion used: +100 HP");
+        int after = user.getHp();
+
+        System.out.println("Potion used: HP " + before + " → " + after);
     }
 }
