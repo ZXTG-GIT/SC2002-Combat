@@ -1,11 +1,30 @@
 package domain.item;
 
-import domain.combatant.Combatant;
+import domain.combatant.*;
+import domain.action.SpecialSkill;
 
 public class PowerStone implements Item {
 
     @Override
     public void use(Combatant user) {
-        System.out.println("PowerStone used (not fully implemented)");
+
+        if (!(user instanceof Player)) {
+            System.out.println("Only player can use PowerStone");
+            return;
+        }
+
+        Player player = (Player) user;
+
+        SpecialSkill skill = player.getSpecialSkill();
+
+        if (skill == null) {
+            System.out.println("No skill available");
+            return;
+        }
+
+        System.out.println("PowerStone used! Free skill activation!");
+
+        // ⭐ 核心：调用 skill 但不影响 cooldown
+        skill.useWithoutCooldown(player);
     }
 }
