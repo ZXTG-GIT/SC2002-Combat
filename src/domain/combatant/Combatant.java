@@ -27,6 +27,10 @@ public abstract class Combatant {
 
     public int getHp() { return hp; }
 
+    public int getDef() { return defense; }
+
+    public void setDef(int def) {  this.defense = def; }
+
     public void takeDamage(int dmg) {
         hp = Math.max(0, hp - dmg);
     }
