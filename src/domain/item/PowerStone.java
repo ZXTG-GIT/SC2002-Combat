@@ -24,7 +24,6 @@ public class PowerStone implements Item {
 
         System.out.println("PowerStone used! Free skill activation!");
 
-        // ⭐ 核心：调用 skill 但不影响 cooldown
         skill.useWithoutCooldown(player);
     }
 }
