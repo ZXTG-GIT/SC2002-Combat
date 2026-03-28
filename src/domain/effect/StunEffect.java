@@ -20,4 +20,9 @@ public class StunEffect implements StatusEffect {
     public boolean isExpired() {
         return duration <= 0;
     }
+
+    @Override
+    public String getName() {
+        return "Stun";
+    }
 }
