@@ -6,4 +6,5 @@ public interface StatusEffect {
     void apply(Combatant target);
     void tick();
     boolean isExpired();
+    String getName();
 }
