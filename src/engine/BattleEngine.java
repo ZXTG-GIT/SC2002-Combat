@@ -49,7 +49,10 @@ public class BattleEngine {
                 }
 
                 c.takeTurn(this);
-
+                
+                if (c instanceof Player) 
+                    ((Player) c).reduceCooldown();
+                
                 if (!player.isAlive() || enemies.stream().noneMatch(Enemy::isAlive))
                     break;
             }
