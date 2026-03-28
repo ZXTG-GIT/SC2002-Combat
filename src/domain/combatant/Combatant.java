@@ -8,7 +8,6 @@ public abstract class Combatant {
 
     protected String name;
     protected int hp, maxHp, attack, defense, speed;
-
     protected List<StatusEffect> effects = new ArrayList<>();
 
     public Combatant(String name, int hp, int atk, int def, int spd) {
@@ -20,17 +19,13 @@ public abstract class Combatant {
         this.speed = spd;
     }
 
-    public boolean isAlive() {
-        return hp > 0;
-    }
+    public String getName() { return name; }
 
-    public int getSpeed() {
-        return speed;
-    }
+    public boolean isAlive() { return hp > 0; }
 
-    public int getHp() {
-        return hp;
-    }
+    public int getSpeed() { return speed; }
+
+    public int getHp() { return hp; }
 
     public void takeDamage(int dmg) {
         hp = Math.max(0, hp - dmg);
@@ -51,13 +46,10 @@ public abstract class Combatant {
 
     public void processEffects() {
         Iterator<StatusEffect> it = effects.iterator();
-
         while (it.hasNext()) {
             StatusEffect e = it.next();
             e.tick();
-            if (e.isExpired()) {
-                it.remove();
-            }
+            if (e.isExpired()) it.remove();
         }
     }
 
