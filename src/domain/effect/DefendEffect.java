@@ -30,5 +30,6 @@ public class DefendEffect implements StatusEffect {
     @Override
     public void statusExpired(Combatant user){
         user.setDef(user.getDef()-10);
+        System.out.println(user.getName() + " defense boost expired!");
     }
 }

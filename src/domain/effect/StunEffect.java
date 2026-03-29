@@ -28,6 +28,6 @@ public class StunEffect implements StatusEffect {
 
     @Override
     public void statusExpired(Combatant user) {
-        // nothing to restore
+        System.out.println(user.getName() + " is no longer stunned!");
     }
 }
