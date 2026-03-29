@@ -25,4 +25,9 @@ public class StunEffect implements StatusEffect {
     public String getName() {
         return "Stun";
     }
+
+    @Override
+    public void statusExpired(Combatant user) {
+        // nothing to restore
+    }
 }
