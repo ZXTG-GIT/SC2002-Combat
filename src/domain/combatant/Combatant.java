@@ -2,7 +2,6 @@ package domain.combatant;
 
 import domain.action.BasicAttack;
 import domain.effect.StatusEffect;
-import engine.BattleEngine;
 
 import java.util.*;
 
@@ -37,8 +36,8 @@ public abstract class Combatant {
 
     public void setDef(int def) {  this.defense = def; }
 
-    public int calculateReceivingDamage(int dmg){
-        return dmg-this.getDef();
+    public int calculateReceivingDamage(Combatant user, Combatant target){
+        return user.getAtk()-target.getDef();
     }
 
     public void takeDamage(int dmg) {
@@ -58,6 +57,7 @@ public abstract class Combatant {
         Iterator<StatusEffect> it = effects.iterator();
         while (it.hasNext()) {
             StatusEffect e = it.next();
+
             if (e.isExpired()) {
                 e.statusExpired(this);
                 it.remove();}
@@ -76,11 +76,11 @@ public abstract class Combatant {
     }
 
     public void Defend(Combatant target){
-        this.BaseAttack.execute(this, target);
+        
     }
 
     public void Item(Combatant target){
-        this.BaseAttack.execute(this, target);
+        
     }
 
     public void basicAttack(Combatant target){
@@ -89,5 +89,5 @@ public abstract class Combatant {
 
     public abstract void SpecialSkill(Combatant target);
 
-    public abstract void takeTurn(BattleEngine engine);
+    public abstract void act(Combatant target);
 }

@@ -1,7 +1,5 @@
 package domain.combatant;
 
-import engine.BattleEngine;
-
 public abstract class Enemy extends Combatant {
 
     public Enemy(String name, int hp, int atk, int def, int spd) {
@@ -9,18 +7,15 @@ public abstract class Enemy extends Combatant {
     }
 
     @Override
-    public void takeTurn(BattleEngine engine) {
-
-        Combatant player = engine.getPlayer();
-
-        if (player.isInvulnerable()) {
-            System.out.println(name + " deals 0 damage (Smoke Bomb)");
+    public void act(Combatant target) {
+        if (target.isInvulnerable()) {
+            System.out.println(this.getName() + " deals 0 damage (Smoke Bomb)");
             return;
         }
+        basicAttack(target);
+    }
 
-        int dmg = calculateDamage(player);
-        player.takeDamage(dmg);
-
-        System.out.println(name + " attacks player for " + dmg);
+    @Override
+    public void SpecialSkill(Combatant target) {
     }
 }
