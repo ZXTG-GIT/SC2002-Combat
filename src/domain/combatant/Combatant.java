@@ -1,14 +1,15 @@
 package domain.combatant;
 
-import engine.BattleEngine;
+import domain.action.BasicAttack;
 import domain.effect.StatusEffect;
 import java.util.*;
 
 public abstract class Combatant {
 
-    protected String name;
-    protected int hp, maxHp, attack, defense, speed;
-    protected List<StatusEffect> effects = new ArrayList<>();
+    private String name;
+    private int hp, maxHp, attack, defense, speed;
+    private List<StatusEffect> effects = new ArrayList<>();
+    private BasicAttack BaseAttack;
 
     public Combatant(String name, int hp, int atk, int def, int spd) {
         this.name = name;
@@ -17,6 +18,7 @@ public abstract class Combatant {
         this.attack = atk;
         this.defense = def;
         this.speed = spd;
+        this.BaseAttack = new BasicAttack();
     }
 
     public String getName() { return name; }
@@ -27,16 +29,15 @@ public abstract class Combatant {
 
     public int getHp() { return hp; }
 
+    public int getAtk() { return attack; }
+
     public int getDef() { return defense; }
 
     public void setDef(int def) {  this.defense = def; }
 
-    public void takeDamage(int dmg) {
+    public void takeDamage(int rawdmg) {
+        int dmg = rawdmg - this.getDef();
         hp = Math.max(0, hp - dmg);
-    }
-
-    public int calculateDamage(Combatant target) {
-        return Math.max(0, this.attack - target.defense);
     }
 
     public void heal(int amount) {
@@ -63,6 +64,10 @@ public abstract class Combatant {
 
     public boolean isInvulnerable() {
         return effects.stream().anyMatch(e -> e.getName().equals("Invulnerable"));
+    }
+
+    public void basicAttack(Combatant target){
+        this.BaseAttack.execute(this, target);
     }
 
     public abstract void takeTurn(BattleEngine engine);

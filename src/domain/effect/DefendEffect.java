@@ -24,6 +24,11 @@ public class DefendEffect implements StatusEffect {
 
     @Override
     public String getName() {
-        return "DefenseEffect";
+        return "Defend";
+    }
+
+    @Override
+    public void statusExpired(Combatant user){
+        user.setDef(user.getDef()-10);
     }
 }
