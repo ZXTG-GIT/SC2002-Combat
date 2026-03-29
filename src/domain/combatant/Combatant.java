@@ -2,6 +2,8 @@ package domain.combatant;
 
 import domain.action.BasicAttack;
 import domain.effect.StatusEffect;
+import engine.BattleEngine;
+
 import java.util.*;
 
 public abstract class Combatant {
@@ -35,7 +37,7 @@ public abstract class Combatant {
 
     public void setDef(int def) {  this.defense = def; }
 
-    public int calculateDamage(int dmg){
+    public int calculateReceivingDamage(int dmg){
         return dmg-this.getDef();
     }
 
@@ -69,9 +71,19 @@ public abstract class Combatant {
         return effects.stream().anyMatch(e -> e.getName().equals("Invulnerable"));
     }
 
+    public void Defend(Combatant target){
+        this.BaseAttack.execute(this, target);
+    }
+
+    public void Item(Combatant target){
+        this.BaseAttack.execute(this, target);
+    }
+
     public void basicAttack(Combatant target){
         this.BaseAttack.execute(this, target);
     }
+
+    public abstract void SpecialSkill(Combatant target);
 
     public abstract void takeTurn(BattleEngine engine);
 }
