@@ -1,7 +1,9 @@
 package domain.combatant;
 
 import domain.action.BasicAttack;
+import domain.effect.DefendEffect;
 import domain.effect.StatusEffect;
+import domain.item.Item;
 
 import java.util.*;
 
@@ -45,7 +47,7 @@ public abstract class Combatant {
     }
 
     public void heal(int amount) {
-        hp = Math.min(maxHp, hp + amount);
+        hp = Math.min(maxHp, this.hp + amount);
     }
 
     public void addEffect(StatusEffect effect) {
@@ -75,19 +77,16 @@ public abstract class Combatant {
         return effects.stream().anyMatch(e -> e.getName().equals("Invulnerable"));
     }
 
-    public void Defend(Combatant target){
-        
+    public void defend(){
+        this.addEffect(new DefendEffect());
     }
 
-    public void Item(Combatant target){
-        
+    public void item(Item item){
+        item.use(this);
     }
 
     public void basicAttack(Combatant target){
         this.BaseAttack.execute(this, target);
     }
 
-    public abstract void SpecialSkill(Combatant target);
-
-    public abstract void act(Combatant target);
 }
