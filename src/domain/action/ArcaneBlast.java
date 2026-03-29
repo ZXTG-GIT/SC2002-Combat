@@ -11,6 +11,11 @@ public class ArcaneBlast extends SpecialSkill {
     }
 
     @Override
+    public boolean isMultiTarget() {
+        return true;
+    }
+
+    @Override
     public void activate(Player player, Combatant target) {
         player.basicAttack(target);
         System.out.println(player.getName() + " hits " + target.getName() + " with Arcane Blast!");

@@ -2,7 +2,7 @@ package domain.item;
 
 import domain.combatant.Combatant;
 
-public class Potion implements Item {
+public class Potion implements DefensiveItems {
 
     @Override
     public void use(Combatant user) {

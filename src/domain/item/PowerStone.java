@@ -1,12 +1,15 @@
 package domain.item;
 
 import domain.combatant.*;
+
+import java.util.List;
+
 import domain.action.SpecialSkill;
 
-public class PowerStone implements OffensiveItems {
+public class PowerStone implements MultiTargetItem {
 
     @Override
-    public void use(Combatant user, Combatant target) {
+    public void use(Combatant user, List<Combatant> targets) {
 
         Player player = (Player) user;
 
@@ -14,6 +17,10 @@ public class PowerStone implements OffensiveItems {
 
         SpecialSkill skill = player.getSpecialSkill();
 
-        skill.useWithoutCooldown(player, target);
+        if (skill.isMultiTarget()){
+            skill.useWithoutCooldown(player, targets);
+        } else {
+            skill.useWithoutCooldown(player, targets.get(0));
+        }
     }
 }

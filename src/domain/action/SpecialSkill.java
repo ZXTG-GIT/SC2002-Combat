@@ -32,6 +32,10 @@ public abstract class SpecialSkill implements Action {
         if (cooldown > 0) cooldown--;
     }
 
+    public boolean isMultiTarget() {
+        return false; 
+    }
+
     public void useWithoutCooldown(Player player, Combatant target) {
         activate(player, target);
     } // for powerstone later
