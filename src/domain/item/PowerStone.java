@@ -17,10 +17,12 @@ public class PowerStone implements MultiTargetItem {
 
         SpecialSkill skill = player.getSpecialSkill();
 
-        if (skill.isMultiTarget()){
-            skill.useWithoutCooldown(player, targets);
+        if (skill.isMultiTarget()) {
+            for (Combatant target : targets) {
+                skill.activate(player, target);
+            }
         } else {
-            skill.useWithoutCooldown(player, targets.get(0));
+            skill.activate(player, targets.get(0));
         }
     }
 }

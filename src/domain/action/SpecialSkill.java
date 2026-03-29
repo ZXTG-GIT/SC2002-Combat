@@ -36,9 +36,6 @@ public abstract class SpecialSkill implements Action {
         return false; 
     }
 
-    public void useWithoutCooldown(Player player, Combatant target) {
-        activate(player, target);
-    } // for powerstone later
 
     @Override
     public void execute(Combatant user, Combatant target) {

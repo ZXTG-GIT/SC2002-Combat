@@ -5,8 +5,9 @@ import domain.effect.DefendEffect;
 import domain.effect.StatusEffect;
 import domain.item.DefensiveItems;
 import domain.item.Item;
+import domain.item.MultiTargetItem;
 import domain.item.OffensiveItems;
-
+import domain.item.SingleTargetItem;
 
 import java.util.*;
 
@@ -92,14 +93,13 @@ public abstract class Combatant {
         item.use(this, target);
     }
 
-    public void useItem(Item item, Combatant target) {
-        if (item instanceof OffensiveItems) {
-            ((OffensiveItems) item).use(this, target);
+    public void useItem(Item item, List<Combatant> targets) {
+        if (item instanceof MultiTargetItem) {
+            ((MultiTargetItem) item).use(this, targets);
         } else if (item instanceof DefensiveItems) {
             ((DefensiveItems) item).use(this);
         }
     }
-
     public void basicAttack(Combatant target){
         this.BaseAttack.execute(this, target);
     }
