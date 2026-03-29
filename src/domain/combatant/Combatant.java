@@ -54,7 +54,7 @@ public abstract class Combatant {
         effect.apply(this);
     }
 
-    public void tickEffects() { //Loops through the effects in the array for 1 tick
+    public void updateEffects() { //Loops through the effects in the array for 1 tick
         Iterator<StatusEffect> it = effects.iterator();
         while (it.hasNext()) {
             StatusEffect e = it.next();
