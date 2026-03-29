@@ -3,7 +3,10 @@ package domain.combatant;
 import domain.action.BasicAttack;
 import domain.effect.DefendEffect;
 import domain.effect.StatusEffect;
+import domain.item.DefensiveItems;
 import domain.item.Item;
+import domain.item.OffensiveItems;
+
 
 import java.util.*;
 
@@ -81,8 +84,20 @@ public abstract class Combatant {
         this.addEffect(new DefendEffect());
     }
 
-    public void item(Item item){
+    public void useDefensiveItem(DefensiveItems item) {
         item.use(this);
+    }
+
+    public void useOffensiveItem(OffensiveItems item, Combatant target) {
+        item.use(this, target);
+    }
+
+    public void useItem(Item item, Combatant target) {
+        if (item instanceof OffensiveItems) {
+            ((OffensiveItems) item).use(this, target);
+        } else if (item instanceof DefensiveItems) {
+            ((DefensiveItems) item).use(this);
+        }
     }
 
     public void basicAttack(Combatant target){
