@@ -6,7 +6,6 @@ import domain.effect.StatusEffect;
 import domain.item.DefensiveItems;
 import domain.item.Item;
 import domain.item.MultiTargetItem;
-import domain.item.OffensiveItems;
 import domain.item.SingleTargetItem;
 
 import java.util.*;
