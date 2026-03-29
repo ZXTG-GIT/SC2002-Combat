@@ -7,8 +7,8 @@ public class StunEffect implements StatusEffect {
     private int duration = 2;
 
     @Override
-    public void apply(Combatant target) {
-        System.out.println(target + " is stunned!");
+    public void apply(Combatant user) {
+        System.out.println(user.getName() + " is stunned!");
     }
 
     @Override
