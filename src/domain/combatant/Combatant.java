@@ -42,7 +42,7 @@ public abstract class Combatant {
     public void setDef(int def) {  this.defense = def; }
 
     public int calculateReceivingDamage(Combatant user, Combatant target){
-        return user.getAtk()-target.getDef();
+        return Math.max(0, user.getAtk()-target.getDef());
     }
 
     public void takeDamage(int dmg) {
