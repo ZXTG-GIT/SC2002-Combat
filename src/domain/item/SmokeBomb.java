@@ -3,7 +3,7 @@ package domain.item;
 import domain.combatant.Combatant;
 import domain.effect.InvulnerabilityEffect;
 
-public class SmokeBomb implements Item {
+public class SmokeBomb implements DefensiveItems {
 
     @Override
     public void use(Combatant user) {

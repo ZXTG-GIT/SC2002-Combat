@@ -10,5 +10,9 @@ public abstract class Player extends Combatant {
         super(name, hp, atk, def, spd);
     }
 
+    public SpecialSkill getSpecialSkill(){
+        return this.specialSkill;
+    }
+    
     public abstract void SpecialSkill(Combatant target);
 }
