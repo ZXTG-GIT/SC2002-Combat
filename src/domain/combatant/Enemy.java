@@ -1,12 +1,11 @@
 package domain.combatant;
 
-public abstract class Enemy extends Combatant {
+public class Enemy extends Combatant {
 
     public Enemy(String name, int hp, int atk, int def, int spd) {
         super(name, hp, atk, def, spd);
     }
 
-    @Override
     public void act(Combatant target) {
         if (target.isInvulnerable()) {
             System.out.println(this.getName() + " deals 0 damage (Smoke Bomb)");
@@ -15,7 +14,4 @@ public abstract class Enemy extends Combatant {
         basicAttack(target);
     }
 
-    @Override
-    public void SpecialSkill(Combatant target) {
-    }
 }

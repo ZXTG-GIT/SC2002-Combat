@@ -3,9 +3,17 @@ package domain.action;
 import domain.combatant.Combatant;
 import domain.combatant.Player;
 import domain.effect.StunEffect;
-import engine.BattleEngine;
 
+public class ShieldBash extends SpecialSkill {
 
-public class ShieldBash {
+    public ShieldBash() {
+        super(3);
+    }
 
+    @Override
+    public void activate(Player player, Combatant target) {
+        player.basicAttack(target);
+        target.addEffect(new StunEffect());
+        System.out.println(player.getName() + " uses Shield Bash on " + target.getName() + "!");
+    }
 }
