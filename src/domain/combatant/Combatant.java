@@ -1,6 +1,7 @@
 package domain.combatant;
 
 import domain.action.BasicAttack;
+import domain.action.Defend;
 import domain.effect.DefendEffect;
 import domain.effect.StatusEffect;
 import domain.item.DefensiveItems;
@@ -16,6 +17,8 @@ public abstract class Combatant {
     private int hp, maxHp, attack, defense, speed;
     private List<StatusEffect> effects = new ArrayList<>();
     private BasicAttack BaseAttack;
+    private Defend Defend;
+    private List<Combatant> opponents = new ArrayList<>();
 
     public Combatant(String name, int hp, int atk, int def, int spd) {
         this.name = name;
@@ -25,6 +28,7 @@ public abstract class Combatant {
         this.defense = def;
         this.speed = spd;
         this.BaseAttack = new BasicAttack();
+        this.Defend = new Defend();
     }
 
     public String getName() { return name; }
@@ -81,12 +85,11 @@ public abstract class Combatant {
     }
 
     public void defend(){
-        this.addEffect(new DefendEffect());
+        Defend.execute(this,opponents);
     }
 
-
-    public void basicAttack(Combatant target){
-        this.BaseAttack.execute(this, target);
+    public void basicAttack(List<Combatant> targets){
+        this.BaseAttack.execute(this, targets);
     }
 
 }

@@ -1,5 +1,7 @@
 package domain.action;
 
+import java.util.List;
+
 import domain.combatant.Combatant;
 import domain.combatant.Player;
 
@@ -36,17 +38,16 @@ public abstract class SpecialSkill implements Action {
         return false; 
     }
 
-
     @Override
-    public void execute(Combatant user, Combatant target) {
+    public void execute(Combatant user, List<Combatant> targets) {
         Player player = (Player) user;
         if (!canUseSkill()) {
             System.out.println("Skill on cooldown! " + cooldown + " turns remaining");
             return;
         }
-        activate(player, target);
+        activate(player, targets);
         setCooldown(this.getBaseCooldown());
     }
 
-    public abstract void activate(Player player, Combatant target);
+    public abstract void activate(Player player, List<Combatant> targets);
 }

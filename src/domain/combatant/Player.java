@@ -41,8 +41,6 @@ public abstract class Player extends Combatant {
                 }
 
                 inventory.remove(i);
-
-                System.out.println(itemName + " used!");
                 return;
             }
         }
