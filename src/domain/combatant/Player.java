@@ -38,10 +38,7 @@ public abstract class Player extends Combatant {
                     ((MultiTargetItem) item).use(this, targets);
                 } else if (item instanceof DefensiveItems) {
                     ((DefensiveItems) item).use(this);
-                } else {
-                    item.use(this); // fallback
                 }
-
 
                 inventory.remove(i);
 
