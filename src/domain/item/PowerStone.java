@@ -9,6 +9,11 @@ import domain.action.SpecialSkill;
 public class PowerStone implements MultiTargetItem {
 
     @Override
+    public String getName(){
+        return "PowerStone";
+    }
+
+    @Override
     public void use(Combatant user, List<Combatant> targets) {
 
         Player player = (Player) user;

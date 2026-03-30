@@ -5,6 +5,11 @@ import domain.combatant.Combatant;
 public class Potion implements DefensiveItems {
 
     @Override
+    public String getName(){
+        return "Potion";
+    }
+
+    @Override
     public void use(Combatant user) {
         int before = user.getHp();
         user.heal(100);

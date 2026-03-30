@@ -6,6 +6,11 @@ import domain.effect.InvulnerabilityEffect;
 public class SmokeBomb implements DefensiveItems {
 
     @Override
+    public String getName(){
+        return "SmokeBomb";
+    }
+
+    @Override
     public void use(Combatant user) {
 
         user.addEffect(new InvulnerabilityEffect());
