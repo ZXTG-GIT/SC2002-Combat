@@ -13,7 +13,9 @@ public class Game {
         enemies.add(new Goblin());
         enemies.add(new Goblin());
         enemies.add(new Goblin());
-
+        player.addItem(new Potion());
+        player.addItem(new Potion());
+        player.addItem(new SmokeBomb());
         TurnOrderStrategy strategy = new SpeedBasedTurnOrder();
         BattleEngine engine = new BattleEngine(strategy);
 
