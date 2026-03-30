@@ -1,4 +1,5 @@
 package domain.combatant;
+import java.util.*;
 
 public class Enemy extends Combatant {
 
@@ -6,12 +7,8 @@ public class Enemy extends Combatant {
         super(name, hp, atk, def, spd);
     }
 
-    public void act(Combatant target) {
-        if (target.isInvulnerable()) {
-            System.out.println(this.getName() + " deals 0 damage (Smoke Bomb)");
-            return;
-        }
-        basicAttack(target);
+    public void act(List<Combatant> targets) {
+        basicAttack(targets);
     }
 
 }
