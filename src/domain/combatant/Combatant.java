@@ -2,12 +2,7 @@ package domain.combatant;
 
 import domain.action.BasicAttack;
 import domain.action.Defend;
-import domain.effect.DefendEffect;
 import domain.effect.StatusEffect;
-import domain.item.DefensiveItems;
-import domain.item.Item;
-import domain.item.MultiTargetItem;
-import domain.item.SingleTargetItem;
 
 import java.util.*;
 
@@ -18,7 +13,6 @@ public abstract class Combatant {
     private List<StatusEffect> effects = new ArrayList<>();
     private BasicAttack BaseAttack;
     private Defend Defend;
-    private List<Combatant> opponents = new ArrayList<>();
 
     public Combatant(String name, int hp, int atk, int def, int spd) {
         this.name = name;
@@ -84,25 +78,11 @@ public abstract class Combatant {
         return effects.stream().anyMatch(e -> e.getName().equals("Invulnerable"));
     }
 
-    public void defend(){
-        Defend.execute(this,opponents);
+    public void defend(List<Combatant> targets){
+        Defend.execute(this, targets);
     }
 
     public void basicAttack(List<Combatant> targets){
         this.BaseAttack.execute(this, targets);
-    }
-
-    public void addOpponent(Combatant opponent) {
-        this.opponents.add(opponent);
-    }
-
-    public void removeDefeatedOpponents() {
-        Iterator<Combatant> it = opponents.iterator();
-        while (it.hasNext()) {
-            Combatant c = it.next();
-            if (!c.isAlive()) {
-                it.remove();
-            }
-        }
     }
 }

@@ -1,24 +1,27 @@
 package main;
 
 import engine.*;
+import ui.*;
+import domain.item.*;
 import domain.combatant.*;
 import java.util.*;
 
 public class Game {
     public static void main(String[] args) {
+        GameUI ui = new GameUI();
+        ui.showLoadingScreen();
 
-        Player player = new Warrior();
+        while (true) {
+            Level level = ui.chooseDifficulty();
+            Player player = ui.chooseCharacterClass();
+            List<Item> items = ui.chooseItems();
+            for (Item item: items) {
+                player.addItem(item);
+            }
 
-        List<Enemy> enemies = new ArrayList<>();
-        enemies.add(new Goblin());
-        enemies.add(new Goblin());
-        enemies.add(new Goblin());
-        player.addItem(new Potion());
-        player.addItem(new Potion());
-        player.addItem(new SmokeBomb());
-        TurnOrderStrategy strategy = new SpeedBasedTurnOrder();
-        BattleEngine engine = new BattleEngine(strategy);
-
-        engine.startBattle(player, enemies);
+            BattleEngine engine = new BattleEngine(player, level, ui);
+            engine.startBattle();
+            ui.showBattleResult(engine);
+        }
     }
 }

@@ -25,27 +25,14 @@ public abstract class Player extends Combatant {
         inventory.add(item);
     }
 
-
-    public void useItem(String itemName, List<Combatant> targets) {
-
-        for (int i = 0; i < inventory.size(); i++) {
-            Item item = inventory.get(i);
-
-            if (item.getName().equals(itemName)) {
-
-
-                if (item instanceof MultiTargetItem) {
-                    ((MultiTargetItem) item).use(this, targets);
-                } else if (item instanceof DefensiveItems) {
-                    ((DefensiveItems) item).use(this);
-                }
-
-                inventory.remove(i);
-                return;
-            }
+    public void useItem(Item item, List<Combatant> targets) {
+        if (item instanceof MultiTargetItem) {
+            ((MultiTargetItem) item).use(this, targets);
+        } else if (item instanceof DefensiveItems) {
+            ((DefensiveItems) item).use(this);
         }
 
-        System.out.println("No " + itemName + " left!");
+        inventory.remove(inventory.indexOf(item));
     }
 
 
@@ -63,5 +50,5 @@ public abstract class Player extends Combatant {
         }
     }
 
-    public abstract void SpecialSkill(Combatant target);
+    public abstract void SpecialSkill(List<Combatant> target);
 }

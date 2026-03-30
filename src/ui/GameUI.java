@@ -1,31 +1,40 @@
 package ui;
 
-import domain.combatant.Enemy;
-import domain.combatant.Player;
-import engine.GameSession;
+import domain.combatant.*;
+import domain.item.*;
+import engine.BattleEngine;
 import engine.Level;
 
 import java.util.List;
 
-public interface GameUI {
+public class GameUI {
+    private GameRenderer renderer = new GameRenderer();
 
-    void showLoadingScreen();
+    public void showLoadingScreen() {};
 
-    Level.Difficulty chooseDifficulty();
+    public Level chooseDifficulty() { return null; };
 
-    int chooseCharacterClass();
+    public Player chooseCharacterClass() { return null; };
 
-    void showRoundState(Player player, List<Enemy> enemies, int round);
+    public List<Item> chooseItems() { return null; };
 
-    int getPlayerAction(Player player, List<Enemy> enemies);
+    public void showRoundState(Player player, List<Enemy> enemies, int round) {};
 
-    int chooseTarget(List<Enemy> enemies);
+    public int getPlayerAction(Player player, List<Enemy> enemies) { return 0; };
 
-    void showMessage(String message);
+    public Enemy chooseTarget(List<Enemy> enemies) { return null; };
 
-    void showEndOfRound(Player player, int round);
+    public Item chooseInventory(Player player) { return null; };
 
-    void showBattleResult(GameSession session);
+    public void showTargetMenu(List<Enemy> enemies) {};
 
-    void waitForEnter();
+    public void showInventory(Player player) {};
+
+    public void showActionMenu(Player player) {};
+
+    public void showEndOfRound(Player player, int round) {};
+
+    public void showBattleResult(BattleEngine session) {};
+
+    public void waitForEnter() {};
 }

@@ -3,9 +3,9 @@ package ui;
 import domain.combatant.Combatant;
 import domain.combatant.Enemy;
 import domain.combatant.Player;
-import engine.GameSession;
-import engine.Level;
+import engine.BattleEngine;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class GameRenderer {
@@ -46,6 +46,20 @@ public class GameRenderer {
         s += "  2) Wizard   (HP 200 | ATK 50 | DEF 10 | SPD 20)\n";
         s += "----------------------------------------\n";
         s += "Choose: ";
+        return s;
+    }
+
+    public String renderItemsMenu() {
+        logger.fine("rendering items menu");
+        String s = "";
+        // TODO
+        return s;
+    }
+
+    public String renderInventory(Player player) {
+        logger.fine("rendering inventory");
+        String s = "";
+        // TODO
         return s;
     }
 
@@ -111,7 +125,7 @@ public class GameRenderer {
         return s;
     }
 
-    public String renderBattleResult(GameSession session) {
+    public String renderBattleResult(BattleEngine session) {
         logger.info("rendering battle result");
         String s = "\n========================================\n";
 
@@ -122,7 +136,7 @@ public class GameRenderer {
         }
 
         s += "========================================\n";
-        s += "  Difficulty : " + session.getLevel().getDifficulty() + "\n";
+        s += "  Difficulty : " + session.getLevel() + "\n";
         s += "  Rounds     : " + session.getTotalRounds() + "\n";
         s += "  Defeated   : " + session.getEnemiesDefeated() + " enemies\n";
         s += "  Player HP  : " + session.getPlayer().getHp() + "\n";
