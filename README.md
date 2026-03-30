@@ -3,16 +3,20 @@ P2 Documentation for Battle Engine Team
 Inheritance Overview
 
 Combatant (abstract)
+
 ├── Enemy → Goblin, Wolf
+
 └── Player → Warrior, Wizard
 
-Enemy — calls basicAttack() on player's opponents list via act()
+Enemy — calls basicAttack() on player's opponents list through act(),
 Player — has inventory and special skill. Warrior uses ShieldBash, Wizard uses ArcaneBlast
 
 Item Hierarchy
 
 Item (interface)
+
 ├── DefensiveItems → Potion, SmokeBomb (targets self)
+
 └── MultiTargetItem → PowerStone (targets enemy list)
 
 Key Design — All Actions Use List
