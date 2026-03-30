@@ -84,15 +84,7 @@ public abstract class Combatant {
         this.addEffect(new DefendEffect());
     }
 
-    public void useItem(Item item, List<Combatant> targets) {
-        if (item instanceof MultiTargetItem) {
-            MultiTargetItem MultiItem = (MultiTargetItem) item;
-            MultiItem.use(this, targets);
-        } else if (item instanceof DefensiveItems) {
-            DefensiveItems DefensiveItem = (DefensiveItems) item;
-            DefensiveItem.use(this);
-        }
-    }
+
     public void basicAttack(Combatant target){
         this.BaseAttack.execute(this, target);
     }
