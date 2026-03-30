@@ -11,7 +11,7 @@ public class Enemy extends Combatant {
             System.out.println(this.getName() + " deals 0 damage (Smoke Bomb)");
             return;
         }
-        basicAttack(target);
+        basicAttack(this,target);
     }
 
 }
