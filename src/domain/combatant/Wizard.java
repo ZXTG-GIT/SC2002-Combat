@@ -1,5 +1,7 @@
 package domain.combatant;
 
+import java.util.List;
+
 import domain.action.ArcaneBlast;
 
 public class Wizard extends Player {
@@ -12,8 +14,8 @@ public class Wizard extends Player {
     }
 
     @Override
-    public void SpecialSkill(Combatant target) {
-        specialSkill.execute(this, target);
+    public void SpecialSkill(List<Combatant> targets) {
+        specialSkill.execute(this, targets);
     }
 
     public void addAttackBonus(int amount) {

@@ -15,7 +15,7 @@ public class ShieldBash extends SpecialSkill {
     @Override
     public void activate(Player player, List<Combatant> targets) {
         Combatant target = targets.get(0);
-        player.basicAttack(target);
+        player.basicAttack(targets);
         target.addEffect(new StunEffect());
         System.out.println(player.getName() + " uses Shield Bash on " + target.getName() + "!");
     }

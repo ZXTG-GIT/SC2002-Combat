@@ -1,5 +1,7 @@
 package domain.combatant;
 
+import java.util.List;
+
 import domain.action.ShieldBash;
 
 public class Warrior extends Player {
@@ -10,8 +12,8 @@ public class Warrior extends Player {
     }
 
     @Override
-    public void SpecialSkill(Combatant target) {
-        specialSkill.execute(this, target);
+    public void SpecialSkill(List<Combatant> targets) {
+        specialSkill.execute(this, targets);
     }
 
 
