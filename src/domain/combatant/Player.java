@@ -10,7 +10,7 @@ public abstract class Player extends Combatant {
     protected SpecialSkill specialSkill;
 
 
-    protected static List<Item> sharedInventory = new ArrayList<>();
+    protected List<Item> inventory = new ArrayList<>();
 
     public Player(String name, int hp, int atk, int def, int spd) {
         super(name, hp, atk, def, spd);
@@ -22,14 +22,14 @@ public abstract class Player extends Combatant {
 
 
     public void addItem(Item item) {
-        sharedInventory.add(item);
+        inventory.add(item);
     }
 
 
     public void useItem(String itemName, List<Combatant> targets) {
 
-        for (int i = 0; i < sharedInventory.size(); i++) {
-            Item item = sharedInventory.get(i);
+        for (int i = 0; i < inventory.size(); i++) {
+            Item item = inventory.get(i);
 
             if (item.getName().equals(itemName)) {
 
@@ -43,7 +43,7 @@ public abstract class Player extends Combatant {
                 }
 
 
-                sharedInventory.remove(i);
+                inventory.remove(i);
 
                 System.out.println(itemName + " used!");
                 return;
@@ -57,12 +57,12 @@ public abstract class Player extends Combatant {
     public void showInventory() {
         Map<String, Integer> countMap = new LinkedHashMap<>();
 
-        for (Item item : sharedInventory) {
+        for (Item item : inventory) {
             String name = item.getName();
             countMap.put(name, countMap.getOrDefault(name, 0) + 1);
         }
 
-        System.out.println("Shared Inventory:");
+        System.out.println("Inventory:");
         for (String key : countMap.keySet()) {
             System.out.println(key + " x" + countMap.get(key));
         }
