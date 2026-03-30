@@ -92,4 +92,17 @@ public abstract class Combatant {
         this.BaseAttack.execute(this, targets);
     }
 
+    public void addOpponent(Combatant opponent) {
+        this.opponents.add(opponent);
+    }
+
+    public void removeDefeatedOpponents() {
+        Iterator<Combatant> it = opponents.iterator();
+        while (it.hasNext()) {
+            Combatant c = it.next();
+            if (!c.isAlive()) {
+                it.remove();
+            }
+        }
+    }
 }
