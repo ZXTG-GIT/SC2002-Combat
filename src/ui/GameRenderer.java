@@ -52,14 +52,24 @@ public class GameRenderer {
     public String renderItemsMenu() {
         logger.fine("rendering items menu");
         String s = "";
-        // TODO
+        s += "----------------------------------------\n";
+        s += "Select 2 Items:\n";
+        s += "  1) Potion     - Heals 100 HP\n";
+        s += "  2) Smoke Bomb - Invulnerable for 2 turns\n";
+        s += "  3) Power Stone - Free skill activation\n";
+        s += "----------------------------------------\n";
+        s += "Choose item (enter number): ";
         return s;
     }
 
     public String renderInventory(Player player) {
         logger.fine("rendering inventory");
-        String s = "";
-        // TODO
+        String s = "Inventory:\n";
+        java.util.List<domain.item.Item> inv = player.getInventory();
+        for (int i = 0; i < inv.size(); i++) {
+            s += "  " + (i + 1) + ") " + inv.get(i).getName() + "\n";
+        }
+        s += "Choose item: ";
         return s;
     }
 
@@ -126,7 +136,7 @@ public class GameRenderer {
     }
 
     public String renderBattleResult(BattleEngine session) {
-        logger.info("rendering battle result");
+        logger.fine("rendering battle result");
         String s = "\n========================================\n";
 
         if (session.isPlayerWon()) {
@@ -145,7 +155,7 @@ public class GameRenderer {
     }
 
     public String renderBackupSpawn(List<Enemy> backupEnemies) {
-        logger.info("backup wave spawned");
+        logger.fine("backup wave spawned");
         String s = "\n----------------------------------------\n";
         s += "  BACKUP WAVE INCOMING!\n";
         s += "  ";

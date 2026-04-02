@@ -37,7 +37,7 @@ public class BattleEngine {
     public String getLevel() {
         return level.name();
     }
-    
+
     public Player getPlayer() {
         return player;
     }
@@ -51,12 +51,8 @@ public class BattleEngine {
             List<Combatant> combatants = new ArrayList<>(enemies);
             combatants.add(player);
             strategy.setTurnOrder(combatants);
-            
-            if (enemies.size() == 0 && !hasBackupSpawned) {
-                spawnBackupEnemies();
-                hasBackupSpawned = true;
-            }
 
+            // tick effects at start of round
             for (Combatant combatant : combatants) {
                 combatant.updateEffects();
             }
@@ -65,48 +61,88 @@ public class BattleEngine {
                 return;
             }
 
+            // execute turns in speed order
             for (Combatant combatant : combatants) {
+                if (!combatant.isAlive()) continue;
+
                 if (combatant instanceof Player) {
+                    if (combatant.isStunned()) {
+                        System.out.println(player.getName() + " is stunned and cannot act!");
+                        continue;
+                    }
                     executePlayerAction();
+                    removeDeadEnemies();
 
                     if (player.getHp() <= 0) {
                         isPlayerWon = false;
                         return;
                     }
                 } else if (combatant instanceof Enemy) {
+                    if (combatant.isStunned()) {
+                        System.out.println(combatant.getName() + " is stunned and cannot act!");
+                        continue;
+                    }
                     combatant.basicAttack(List.of(player));
 
-                    if (combatant.getHp() <= 0) {
-                        enemies.remove(enemies.indexOf(combatant));
-                        combatants.remove(enemies.indexOf(combatant));
-                        enemiesDefeated += 1;
+                    if (player.getHp() <= 0) {
+                        isPlayerWon = false;
+                        return;
                     }
                 }
             }
 
-            if (enemies.size() == 0 && hasBackupSpawned) {
+            removeDeadEnemies();
+
+            // check for backup spawn
+            if (enemies.isEmpty() && !hasBackupSpawned) {
+                spawnBackupEnemies();
+                hasBackupSpawned = true;
+                if (enemies.isEmpty()) {
+                    // Easy mode has no backup
+                    isPlayerWon = true;
+                    return;
+                }
+            }
+
+            // check win after backup already spawned
+            if (enemies.isEmpty() && hasBackupSpawned) {
                 isPlayerWon = true;
                 return;
             }
 
+            // reduce special skill cooldown at end of round
+            player.getSpecialSkill().reduceCooldown();
+
             ui.showEndOfRound(player, round);
+            round++;
+        }
+    }
+
+    private void removeDeadEnemies() {
+        Iterator<Enemy> it = enemies.iterator();
+        while (it.hasNext()) {
+            Enemy e = it.next();
+            if (!e.isAlive()) {
+                it.remove();
+                enemiesDefeated++;
+            }
         }
     }
 
     private void spawnInitialEnemies() {
         switch (level) {
-            case Level.Easy:
+            case Easy:
                 enemies.add(new Goblin());
                 enemies.add(new Goblin());
                 enemies.add(new Goblin());
                 break;
 
-            case Level.Medium:
+            case Medium:
                 enemies.add(new Goblin());
                 enemies.add(new Wolf());
                 break;
 
-            case Level.Hard:
+            case Hard:
                 enemies.add(new Goblin());
                 enemies.add(new Goblin());
                 break;
@@ -114,19 +150,32 @@ public class BattleEngine {
     }
 
     private void spawnBackupEnemies() {
+        List<Enemy> backup = new ArrayList<>();
         switch (level) {
-            case Level.Easy:
+            case Easy:
                 break;
 
-            case Level.Medium:
-                enemies.add(new Wolf());
-                enemies.add(new Wolf());
+            case Medium:
+                backup.add(new Wolf());
+                backup.add(new Wolf());
                 break;
 
-            case Level.Hard:
-                enemies.add(new Goblin());
-                enemies.add(new Wolf());
+            case Hard:
+                backup.add(new Goblin());
+                backup.add(new Wolf());
                 break;
+        }
+        if (!backup.isEmpty()) {
+            enemies.addAll(backup);
+            System.out.println("\n----------------------------------------");
+            System.out.println("  BACKUP WAVE INCOMING!");
+            System.out.print("  ");
+            for (int i = 0; i < backup.size(); i++) {
+                if (i > 0) System.out.print(", ");
+                System.out.print(backup.get(i).getName());
+            }
+            System.out.println(" appeared!");
+            System.out.println("----------------------------------------");
         }
     }
 
@@ -134,37 +183,38 @@ public class BattleEngine {
         ui.showActionMenu(player);
         int action = ui.getPlayerAction(player, enemies);
         switch (action) {
-            case 1:
+            case 1: {
                 ui.showTargetMenu(enemies);
                 Enemy enemy = ui.chooseTarget(enemies);
                 player.basicAttack(List.of(enemy));
                 break;
+            }
 
             case 2:
                 player.defend(List.copyOf(enemies));
                 break;
 
-            case 3:
-                ui.showInventory(player);
-                Item item = ui.chooseInventory(player);
-                if (player.getSpecialSkill().isMultiTarget()) {
-                    player.useItem(item, List.copyOf(enemies));
-                } else {
-                    ui.showTargetMenu(enemies);
-                    enemy = ui.chooseTarget(enemies);
-                    player.useItem(item, List.of(enemy));
-                }
-                return;
-
-            case 4:
+            case 3: {
                 if (player.getSpecialSkill().isMultiTarget()) {
                     player.SpecialSkill(List.copyOf(enemies));
                 } else {
                     ui.showTargetMenu(enemies);
-                    enemy = ui.chooseTarget(enemies);
+                    Enemy enemy = ui.chooseTarget(enemies);
                     player.SpecialSkill(List.of(enemy));
                 }
-                return;
+                break;
+            }
+
+            case 4: {
+                ui.showInventory(player);
+                Item item = ui.chooseInventory(player);
+                if (item instanceof MultiTargetItem) {
+                    player.useItem(item, List.copyOf(enemies));
+                } else {
+                    player.useItem(item, List.of(player));
+                }
+                break;
+            }
         }
     }
 }
