@@ -1,53 +1,111 @@
-P2 Documentation for Battle Engine Team
+# SC2002 Turn-Based Combat Arena
 
-Inheritance Overview
+A CLI turn-based combat game built for SC2002 Object-Oriented Design & Programming.
 
-Combatant (abstract)
+Pick your class, grab some items, and fight through waves of enemies. Supports colour output on Mac/Linux terminals.
 
-├── Enemy → Goblin, Wolf
+## How to Run
 
-└── Player → Warrior, Wizard
+```bash
+javac -sourcepath src -d out src/main/Game.java
+java -cp out main.Game
+```
 
-Enemy — calls basicAttack() on player's opponents list through act(),
-Player — has inventory and special skill. Warrior uses ShieldBash, Wizard uses ArcaneBlast
+## Gameplay
 
-Item Hierarchy
+1. Choose difficulty (Easy / Medium / Hard)
+2. Pick a class — Warrior or Wizard
+3. Select 2 items from the shop
+4. Fight enemies in turn-based combat
+5. Defeat all waves to win
 
-Item (interface)
+### Classes
 
-├── DefensiveItems → Potion, SmokeBomb (targets self)
+| Class   | HP  | ATK | DEF | SPD | Special Skill          |
+|---------|-----|-----|-----|-----|------------------------|
+| Warrior | 260 | 40  | 20  | 30  | Shield Bash (stun, CD 3) |
+| Wizard  | 200 | 50  | 10  | 20  | Arcane Blast (AoE, CD 3) |
 
-└── MultiTargetItem → PowerStone (targets enemy list)
+### Items
 
-Key Design — All Actions Use List
-All actions now take List<Combatant> targets instead of a single target. Engine always passes the full alive enemy list. Single target actions (BasicAttack, ShieldBash) use targets.get(0) internally — engine is responsible for putting the selected target at index 0 before passing the list.
+| Item        | Effect                        |
+|-------------|-------------------------------|
+| Potion      | Heals 100 HP                  |
+| Smoke Bomb  | Invulnerable for 2 turns      |
+| Power Stone | Free skill activation (no CD) |
 
-Combatant — call on everyone
-- updateEffects() — call at start of each round for all combatants
-- isAlive() — check before any action
-- isStunned() — skip turn if true
-- getSpeed() — used for turn order sorting
-- addOpponent(Combatant) — add enemies/player as opponents at battle start
-- removeDefeatedOpponents() — call after each turn to clean up dead combatants
+### Difficulty Levels
 
-Enemy
-- act(List<Combatant> targets) — passes targets directly to basicAttack, just call with player in a list
+| Level  | Wave 1              | Wave 2 (Backup)      |
+|--------|----------------------|----------------------|
+| Easy   | 3 Goblins            | —                    |
+| Medium | 1 Goblin + 1 Wolf    | 2 Wolves             |
+| Hard   | 2 Goblins            | 1 Goblin + 2 Wolves  |
 
-Player
-- basicAttack(List<Combatant> targets) — attacks targets.get(0)
-- defend() — adds defend effect, no target needed
-- SpecialSkill(List<Combatant> targets) — handles cooldown internally
-- useItem(String itemName, List<Combatant> targets) — routes to correct item, removes from inventory
-- showInventory() — print available items
+### Enemies
 
-SpecialSkill
-- canUseSkill() — use this to show/hide skill option in menu
-- reduceCooldown() — call after every player turn
-- isMultiTarget() — true for ArcaneBlast, false for ShieldBash
+| Enemy  | HP | ATK | DEF | SPD |
+|--------|----|-----|-----|-----|
+| Goblin | 55 | 35  | 15  | 25  |
+| Wolf   | 40 | 45  | 5   | 35  |
 
-⚠️ Single Target Actions — Index 0 Convention
-BasicAttack and ShieldBash both use targets.get(0) internally. Engine must ensure the player's selected target is placed at index 0 of the list before passing it in. ArcaneBlast loops through all targets automatically.
+## Project Structure
 
-⚠️ ArcaneBlast Multi Target Note
-ArcaneBlast loops through entire targets list internally — engine just passes full alive enemy list directly. PowerStone also handles this internally — just call useItem("PowerStone", allEnemies)
+```
+src/
+├── main/
+│   └── Game.java              # entry point
+├── engine/
+│   ├── BattleEngine.java      # game loop, spawning, turn order
+│   ├── GameSession.java       # session state tracking
+│   ├── Level.java             # difficulty enum
+│   ├── TurnOrderStrategy.java # strategy interface
+│   └── SpeedBasedTurnOrder.java
+├── ui/
+│   ├── GameUI.java            # scanner input, delegates to renderer
+│   └── GameRenderer.java      # ANSI output, HP bars, menus
+├── domain/
+│   ├── combatant/
+│   │   ├── Combatant.java     # abstract base
+│   │   ├── Player.java        # inventory, skills
+│   │   ├── Warrior.java
+│   │   ├── Wizard.java
+│   │   ├── Enemy.java
+│   │   ├── Goblin.java
+│   │   └── Wolf.java
+│   ├── action/
+│   │   ├── Action.java        # interface
+│   │   ├── BasicAttack.java
+│   │   ├── Defend.java
+│   │   ├── SpecialSkill.java  # abstract, handles cooldown
+│   │   ├── ShieldBash.java
+│   │   └── ArcaneBlast.java
+│   ├── item/
+│   │   ├── Item.java          # interface
+│   │   ├── DefensiveItems.java
+│   │   ├── MultiTargetItem.java
+│   │   ├── SingleTargetItem.java
+│   │   ├── Potion.java
+│   │   ├── SmokeBomb.java
+│   │   └── PowerStone.java
+│   └── effect/
+│       ├── StatusEffect.java  # interface
+│       ├── DefendEffect.java
+│       ├── StunEffect.java
+│       └── InvulnerabilityEffect.java
+```
 
+## Design Notes
+
+- **Turn order** is speed-based (highest SPD goes first each round)
+- **All actions** take `List<Combatant>` as targets — single-target actions just use index 0
+- **No game logic in the UI layer** — GameRenderer only builds strings, GameUI only handles I/O
+- **Status effects** tick at the start of each round and auto-expire
+- **Strategy pattern** for turn ordering so we can swap it out if needed
+
+## Team
+
+- P1 — Battle Engine + Turn Order
+- P2 — Domain Classes (Combatant, Action, Effect, Item)
+- P3 — Special Skills + Items
+- P4 — CLI, Levels, Game Session
