@@ -3,8 +3,7 @@ package domain.action;
 import java.util.List;
 
 import domain.combatant.Combatant;
-
-
+import ui.GameRenderer;
 
 public class BasicAttack implements Action {
     @Override
@@ -12,13 +11,12 @@ public class BasicAttack implements Action {
         Combatant target = targets.get(0);
 
         if (target.isInvulnerable()) {
-            System.out.println(user.getName() + " deals 0 damage (Smoke Bomb)");
+            System.out.println(GameRenderer.warn(user.getName() + "'s attack blocked by Smoke Bomb! (0 damage)"));
             return;
         }
 
         int dmg = user.calculateReceivingDamage(user, target);
         target.takeDamage(dmg);
-        System.out.println(user.getName() + " attacks " + target.getName() + " for " + dmg);
-        System.out.println(target.getName() + " HP: " + target.getHp());
+        System.out.println(GameRenderer.dmg(user.getName() + " attacks " + target.getName() + " for " + dmg + " damage"));
     }
 }

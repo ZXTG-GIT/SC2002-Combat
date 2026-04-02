@@ -2,6 +2,7 @@ package domain.item;
 
 import domain.combatant.Combatant;
 import domain.effect.InvulnerabilityEffect;
+import ui.GameRenderer;
 
 public class SmokeBomb implements DefensiveItems {
 
@@ -12,9 +13,7 @@ public class SmokeBomb implements DefensiveItems {
 
     @Override
     public void use(Combatant user) {
-
         user.addEffect(new InvulnerabilityEffect());
-
-        System.out.println("Smoke Bomb used: Enemy damage = 0 for 2 turns");
+        System.out.println(GameRenderer.warn("Smoke Bomb used! Invulnerable for 2 turns"));
     }
 }

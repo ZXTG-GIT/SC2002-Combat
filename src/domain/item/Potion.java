@@ -1,6 +1,7 @@
 package domain.item;
 
 import domain.combatant.Combatant;
+import ui.GameRenderer;
 
 public class Potion implements DefensiveItems {
 
@@ -15,6 +16,6 @@ public class Potion implements DefensiveItems {
         user.heal(100);
         int after = user.getHp();
 
-        System.out.println("Potion used: HP " + before + " → " + after);
+        System.out.println(GameRenderer.heal("Potion used! HP " + before + " \u2192 " + after));
     }
 }

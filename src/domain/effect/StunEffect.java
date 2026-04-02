@@ -1,6 +1,7 @@
 package domain.effect;
 
 import domain.combatant.Combatant;
+import ui.GameRenderer;
 
 public class StunEffect implements StatusEffect {
 
@@ -8,7 +9,7 @@ public class StunEffect implements StatusEffect {
 
     @Override
     public void apply(Combatant user) {
-        System.out.println(user.getName() + " is stunned!");
+        System.out.println(GameRenderer.dmg(user.getName() + " is STUNNED!"));
     }
 
     @Override
@@ -28,6 +29,6 @@ public class StunEffect implements StatusEffect {
 
     @Override
     public void statusExpired(Combatant user) {
-        System.out.println(user.getName() + " is no longer stunned!");
+        System.out.println(GameRenderer.info(user.getName() + " is no longer stunned"));
     }
 }

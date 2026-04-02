@@ -5,6 +5,7 @@ import domain.combatant.*;
 import java.util.List;
 
 import domain.action.SpecialSkill;
+import ui.GameRenderer;
 
 public class PowerStone implements MultiTargetItem {
 
@@ -16,7 +17,7 @@ public class PowerStone implements MultiTargetItem {
     @Override
     public void use(Combatant user, List<Combatant> targets) {
         Player player = (Player) user;
-        System.out.println("PowerStone used! Free skill activation!");
+        System.out.println(GameRenderer.warn("PowerStone used! Free skill activation!"));
         SpecialSkill skill = player.getSpecialSkill();
         skill.activate(player, targets);
     }

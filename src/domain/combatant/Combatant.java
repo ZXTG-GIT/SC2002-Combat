@@ -27,6 +27,10 @@ public abstract class Combatant {
 
     public String getName() { return name; }
 
+    public void setName(String name) { this.name = name; }
+
+    public int getMaxHp() { return maxHp; }
+
     public boolean isAlive() { return hp > 0; }
 
     public int getSpeed() { return speed; }
@@ -76,6 +80,10 @@ public abstract class Combatant {
 
     public boolean isInvulnerable() {
         return effects.stream().anyMatch(e -> e.getName().equals("Invulnerable"));
+    }
+
+    public boolean isDefending() {
+        return effects.stream().anyMatch(e -> e.getName().equals("Defend"));
     }
 
     public void defend(List<Combatant> targets){

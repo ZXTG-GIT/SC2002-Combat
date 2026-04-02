@@ -3,6 +3,7 @@ package engine;
 import domain.combatant.*;
 import domain.item.*;
 import ui.GameUI;
+import ui.GameRenderer;
 import java.util.*;
 
 public class BattleEngine {
@@ -15,6 +16,7 @@ public class BattleEngine {
     private Player player;
     private Level level;
     private GameUI ui;
+    private char enemyLabel = 'A';
 
     public BattleEngine(Player player, Level level, GameUI ui) {
         this.player = player;
@@ -67,7 +69,7 @@ public class BattleEngine {
 
                 if (combatant instanceof Player) {
                     if (combatant.isStunned()) {
-                        System.out.println(player.getName() + " is stunned and cannot act!");
+                        System.out.println(GameRenderer.dmg(player.getName() + " is STUNNED and cannot act!"));
                         continue;
                     }
                     executePlayerAction();
@@ -79,7 +81,7 @@ public class BattleEngine {
                     }
                 } else if (combatant instanceof Enemy) {
                     if (combatant.isStunned()) {
-                        System.out.println(combatant.getName() + " is stunned and cannot act!");
+                        System.out.println(GameRenderer.dmg(combatant.getName() + " is STUNNED and cannot act!"));
                         continue;
                     }
                     combatant.basicAttack(List.of(player));
@@ -98,7 +100,6 @@ public class BattleEngine {
                 spawnBackupEnemies();
                 hasBackupSpawned = true;
                 if (enemies.isEmpty()) {
-                    // Easy mode has no backup
                     isPlayerWon = true;
                     return;
                 }
@@ -129,22 +130,34 @@ public class BattleEngine {
         }
     }
 
+    private Goblin namedGoblin() {
+        Goblin g = new Goblin();
+        g.setName("Goblin " + enemyLabel++);
+        return g;
+    }
+
+    private Wolf namedWolf() {
+        Wolf w = new Wolf();
+        w.setName("Wolf " + enemyLabel++);
+        return w;
+    }
+
     private void spawnInitialEnemies() {
         switch (level) {
             case Easy:
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
+                enemies.add(namedGoblin());
+                enemies.add(namedGoblin());
+                enemies.add(namedGoblin());
                 break;
 
             case Medium:
-                enemies.add(new Goblin());
-                enemies.add(new Wolf());
+                enemies.add(namedGoblin());
+                enemies.add(namedWolf());
                 break;
 
             case Hard:
-                enemies.add(new Goblin());
-                enemies.add(new Goblin());
+                enemies.add(namedGoblin());
+                enemies.add(namedGoblin());
                 break;
         }
     }
@@ -156,26 +169,18 @@ public class BattleEngine {
                 break;
 
             case Medium:
-                backup.add(new Wolf());
-                backup.add(new Wolf());
+                backup.add(namedWolf());
+                backup.add(namedWolf());
                 break;
 
             case Hard:
-                backup.add(new Goblin());
-                backup.add(new Wolf());
+                backup.add(namedGoblin());
+                backup.add(namedWolf());
                 break;
         }
         if (!backup.isEmpty()) {
             enemies.addAll(backup);
-            System.out.println("\n----------------------------------------");
-            System.out.println("  BACKUP WAVE INCOMING!");
-            System.out.print("  ");
-            for (int i = 0; i < backup.size(); i++) {
-                if (i > 0) System.out.print(", ");
-                System.out.print(backup.get(i).getName());
-            }
-            System.out.println(" appeared!");
-            System.out.println("----------------------------------------");
+            System.out.print(new GameRenderer().renderBackupSpawn(backup));
         }
     }
 

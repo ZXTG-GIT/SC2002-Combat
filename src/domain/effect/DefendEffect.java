@@ -1,6 +1,7 @@
 package domain.effect;
 
 import domain.combatant.Combatant;
+import ui.GameRenderer;
 
 public class DefendEffect implements StatusEffect {
 
@@ -9,7 +10,7 @@ public class DefendEffect implements StatusEffect {
     @Override
     public void apply(Combatant user) {
         user.setDef(user.getDef()+10);
-        System.out.println(user.getName() + " defends! +10 defense for 2 turns");
+        System.out.println(GameRenderer.info(user.getName() + " defends! +10 DEF for 2 rounds"));
     }
 
     @Override
@@ -30,6 +31,6 @@ public class DefendEffect implements StatusEffect {
     @Override
     public void statusExpired(Combatant user){
         user.setDef(user.getDef()-10);
-        System.out.println(user.getName() + " defense boost expired!");
+        System.out.println(GameRenderer.info(user.getName() + "'s defense boost expired"));
     }
 }
