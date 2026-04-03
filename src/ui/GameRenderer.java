@@ -60,7 +60,7 @@ public class GameRenderer {
         StringBuilder b = new StringBuilder();
         if (c.isStunned())      b.append("  " + BG_RED + WHT + BOLD + " STUNNED " + RST);
         if (c.isDefending())    b.append("  " + BG_BLU + WHT + BOLD + " DEFENDING " + RST);
-        if (c.isInvulnerable()) b.append("  " + BG_YEL + BLK + BOLD + " SMOKE BOMB " + RST);
+        if (c.isInvulnerable()) b.append("  " + BG_YEL + BLK + BOLD + " INVULNERABLE " + RST);
         return b.toString();
     }
 
@@ -149,7 +149,7 @@ public class GameRenderer {
             + "  SPD:" + player.getSpeed());
         s.append(badges(player));
         if (player.getSpecialSkill() != null && !player.getSpecialSkill().canUseSkill()) {
-            s.append("  " + YEL + "[CD:" + player.getSpecialSkill().getCurrentCooldown() + "]" + RST);
+            s.append("  " + YEL + "[Special Skill CD:" + player.getSpecialSkill().getCurrentCooldown() + "]" + RST);
         }
         s.append("\n");
 
@@ -168,7 +168,7 @@ public class GameRenderer {
             Enemy e = enemies.get(i);
             s.append(B_BLU + "[" + (i + 1) + "]" + RST + " ");
             if (e.isAlive()) {
-                s.append(e.getName() + "    " + hpBar(e.getHp(), e.getMaxHp()));
+                s.append(String.format("%-12s", e.getName()) + hpBar(e.getHp(), e.getMaxHp()));
                 s.append(badges(e));
             } else {
                 s.append(e.getName() + "    " + RED + "(DEAD)" + RST);

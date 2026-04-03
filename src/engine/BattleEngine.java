@@ -48,7 +48,6 @@ public class BattleEngine {
         spawnInitialEnemies();
 
         while (true) {
-            ui.showRoundState(player, enemies, round);
 
             List<Combatant> combatants = new ArrayList<>(enemies);
             combatants.add(player);
@@ -66,6 +65,7 @@ public class BattleEngine {
                 combatant.updateEffects();
 
                 if (combatant instanceof Player) {
+                    ui.showRoundState(player, enemies, round);
                     if (combatant.isStunned()) {
                         System.out.println(GameRenderer.dmg(player.getName() + " is STUNNED and cannot act!"));
                         continue;
