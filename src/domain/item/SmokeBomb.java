@@ -13,7 +13,7 @@ public class SmokeBomb implements DefensiveItems {
 
     @Override
     public void use(Combatant user) {
-        user.addEffect(new InvulnerabilityEffect());
         System.out.println(GameRenderer.warn("Smoke Bomb used! Invulnerable for 2 turns"));
+        user.addEffect(new InvulnerabilityEffect());
     }
 }
