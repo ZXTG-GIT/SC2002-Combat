@@ -21,7 +21,8 @@ public class ArcaneBlast extends SpecialSkill {
     @Override
     public void activate(Player player, List<Combatant> targets) {
         for (Combatant target : targets) {
-            player.basicAttack(targets);
+            int dmg = player.calculateReceivingDamage(player, target);
+            target.takeDamage(dmg);
             System.out.println(GameRenderer.dmg(player.getName() + " hits " + target.getName() + " with Arcane Blast!"));
 
             if (!target.isAlive()) {
