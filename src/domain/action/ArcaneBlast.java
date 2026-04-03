@@ -23,7 +23,7 @@ public class ArcaneBlast extends SpecialSkill {
         for (Combatant target : targets) {
             int dmg = player.calculateReceivingDamage(player, target);
             target.takeDamage(dmg);
-            System.out.println(GameRenderer.dmg(player.getName() + " hits " + target.getName() + " with Arcane Blast!"));
+            System.out.println(GameRenderer.dmg(player.getName() + " hits " + target.getName() + " with Arcane Blast! " + dmg));
 
             if (!target.isAlive()) {
                 ((Wizard) player).addAttackBonus(10);

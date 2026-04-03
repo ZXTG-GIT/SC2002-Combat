@@ -54,10 +54,6 @@ public class BattleEngine {
             combatants.add(player);
             strategy.setTurnOrder(combatants);
 
-            // tick effects at start of round
-            for (Combatant combatant : combatants) {
-                combatant.updateEffects();
-            }
             if (player.getHp() <= 0) {
                 isPlayerWon = false;
                 return;
@@ -66,6 +62,8 @@ public class BattleEngine {
             // execute turns in speed order
             for (Combatant combatant : combatants) {
                 if (!combatant.isAlive()) continue;
+
+                combatant.updateEffects();
 
                 if (combatant instanceof Player) {
                     if (combatant.isStunned()) {
