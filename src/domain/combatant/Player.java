@@ -8,7 +8,7 @@ import java.util.*;
 public abstract class Player extends Combatant {
 
     protected SpecialSkill specialSkill;
-
+    protected boolean usedPowerStone = false;
 
     protected List<Item> inventory = new ArrayList<>();
 
@@ -53,6 +53,12 @@ public abstract class Player extends Combatant {
             System.out.println(key + " x" + countMap.get(key));
         }
     }
+
+    public boolean isUsedPowerStone() { 
+        return usedPowerStone; }
+
+    public void setUsedPowerStone(boolean bool) { 
+        usedPowerStone = bool; }
 
     public abstract void SpecialSkill(List<Combatant> target);
 }

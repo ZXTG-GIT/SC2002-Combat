@@ -110,7 +110,10 @@ public class BattleEngine {
             }
 
             // reduce special skill cooldown at end of round
-            player.getSpecialSkill().reduceCooldown();
+            if (!player.isUsedPowerStone()) {
+                player.getSpecialSkill().reduceCooldown();
+            }
+            player.setUsedPowerStone(false);
 
             ui.showEndOfRound(player, round);
             round++;
@@ -211,6 +214,9 @@ public class BattleEngine {
             case 4: {
                 ui.showInventory(player);
                 Item item = ui.chooseInventory(player);
+                if (item instanceof PowerStone) {
+                    player.setUsedPowerStone(true);
+                }
                 if (item instanceof MultiTargetItem) {
                     player.useItem(item, List.copyOf(enemies));
                 } else {
