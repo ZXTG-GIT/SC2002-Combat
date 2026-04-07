@@ -220,18 +220,18 @@ public class GameRenderer {
             + "\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n";
     }
 
-    public String renderBattleResult(BattleEngine session) {
+    public String renderBattleResult(BattleEngine engine) {
         logger.fine("rendering battle result");
         StringBuilder s = new StringBuilder("\n");
-        Player p = session.getPlayer();
+        Player p = engine.getPlayer();
 
-        if (session.isPlayerWon()) {
+        if (engine.getSession().isPlayerWon()) {
             s.append(B_GRN + BOLD);
             s.append("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
             s.append("\u2551         VICTORY!                     \u2551\n");
             s.append("\u2551  All enemies defeated!               \u2551\n");
             s.append(boxLine("Remaining HP : " + p.getHp() + "/" + p.getMaxHp()) + "\n");
-            s.append(boxLine("Total Rounds : " + session.getTotalRounds()) + "\n");
+            s.append(boxLine("Total Rounds : " + engine.getSession().getTotalRounds()) + "\n");
             s.append("\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n");
             s.append(RST);
         } else {
@@ -239,7 +239,7 @@ public class GameRenderer {
             s.append("\u2554\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2557\n");
             s.append("\u2551         DEFEATED.                    \u2551\n");
             s.append("\u2551  Don't give up, try again!           \u2551\n");
-            s.append(boxLine("Rounds Survived : " + session.getTotalRounds()) + "\n");
+            s.append(boxLine("Rounds Survived : " + engine.getSession().getTotalRounds()) + "\n");
             s.append("\u255a\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u255d\n");
             s.append(RST);
         }
